@@ -3,7 +3,7 @@
 #blackjack_v1.py - Is version 1 of a basic Blackjack game in python.
 
 #Features to be added in future versions: split, surrender, insurance, betting system,
-# GUI, decks (ie 1 deck, 2 delks, 3 deck delt, etc.)
+# GUI, decks (ie 1 deck, 2 decks, 3 deck delt, etc.)
 
 import random, sys, time
 
