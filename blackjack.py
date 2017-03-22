@@ -116,13 +116,10 @@ print(sum(twenty_one))
 def ace(card_1, card_2, score):
     if card_1 == 'A' and card_2 == 'A' and sum(score) > 21:
         score[0] = 1
-        print(score)
     if card_1 == 'A' and not card_2 == 'A' and sum(score) > 21:
         score[0] = 1
-        print(score)
     if not card_1 == 'A' and card_2 == 'A' and sum(score) > 21:
         score[1] = 1
-        print(score)
 
 # adjust for scoring of 'A' (ace) by changing the value in twenty_one(_dealer) to 1
 def ace_adjustment(hand, score):
