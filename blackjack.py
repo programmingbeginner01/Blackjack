@@ -21,16 +21,18 @@ cards = ['A',
          'Q',
          'K']
 
-# list for score (twenty_one) and the player/dealer's hand		 
+# list for score (twenty_one, twenty_one_dealer) and the player/dealer's hand		 
 twenty_one = []
 hand = []
 
 twenty_one_dealer = []
 dealers_hand =  []
 
+# Gets a random card from list cards
 def random_card():
     return cards[random.randint(0, 12)]
 
+# finds cards and appends score/vale to twenty_one/twenty_one_dealer)
 def play(card, list):
     if  card == 'A':
         return list.append(11)
@@ -88,7 +90,7 @@ play(d_draw_2, twenty_one_dealer)
 text_speed.sleep()
 print('-' * 50)
 
-# PLAYER
+# PLAYER mirrors dealers
 print('Your hand:') 
 
 draw = random_card()
@@ -189,6 +191,8 @@ def bust():
 
 # dealer starts play when player stands		
 def move_dealer_stand():
+    # the dealer will draw a card on 16 or less or wll stand
+    # if the delaer is between 16 and 21/ the function will compare score to see who has the highest score
     if sum(twenty_one_dealer) > 16 and sum(twenty_one_dealer) <= 21:
         if sum(twenty_one) > sum(twenty_one_dealer): 
             print('Dealer\'s Final Total: ' + str(sum(twenty_one_dealer)), '\n')
@@ -206,11 +210,14 @@ def move_dealer_stand():
             print('Push')
             sys.exit()
     elif sum(twenty_one_dealer) <= 16:
+	# dealer will hit on 16 or less (and stands on 17)
+	# theoretically there could be 8 cards played by dealer, (a 10 value, and 7 aces)
+	# draws a random card, adds it to hand, finds score, adjust for aces, prints hand, checks for bust
         print_dealers_hand()
-        draw_3_to_21 = random_card()   
-        dealers_hand.append(draw_3_to_21)
-        print(draw_3_to_21)
-        play(draw_3_to_21, twenty_one_dealer)
+        draw_3_to_8 = random_card()   
+        dealers_hand.append(draw_3_to_8)
+        print(draw_3_to_8)
+        play(draw_3_to_8, twenty_one_dealer)
         ace(dealer_draw, d_draw_2, twenty_one_dealer)
         ace_adjustment(dealers_hand, twenty_one_dealer)
         print('Dealer\'s Total: ' + str(sum(twenty_one_dealer)))
@@ -219,6 +226,7 @@ def move_dealer_stand():
         text_speed.sleep()
         move_dealer_stand() # loops
     else:
+	# if dealer's value goes over 21
         print('Dealer\'s Final Total: ' + str(sum(twenty_one_dealer)), '\n')
         text_speed.sleep()
         print('Dealer bust', '\n')
@@ -231,6 +239,8 @@ def next_moves():
         print('Hit or stand?')
         move = input()
         if move.lower() == 'hit':
+          # sense we are not using a deck there theoretically can be 21 cards (all aces)
+	  # draws a random card, adds it to hand, finds score, adjust for aces, prints hand, checks for bust
           draw_4_to_21 = random_card()
           hand.append(draw_4_to_21)
           play(draw_4_to_21, twenty_one)
@@ -239,24 +249,27 @@ def next_moves():
           print_hand(hand, twenty_one)
           bust()
         elif move.lower() == 'stand':
+		# moves on to dealers's play
            print('-' * 50)
            print_dealers_hand()
            print('Dealer\'s Total: ' + str(sum(twenty_one_dealer)))
            print('-' * 50)
            move_dealer_stand() 
         else:
-            print('Please retype your answer: ', '\n')
+	    # repeats question
+	    print('Please retype your answer: ', '\n')
             next_moves()
 
 # input for first move by player. Hit goes to next_move() and stay goes to move_dealer_stand()			
 def first_move():
-    first_play_blackjack()
+    first_play_blackjack() # checks if dealer/player has blackjack
     text_speed.sleep()
-    print('Hit or stand?')
+    print('Hit or stand?') 
     next_play = input()
     if dealer_draw == 'A' and d_draw_2 == 'A': # if the dealer draws two aces in first two draws
         twenty_one_dealer[1] = 1
     if next_play.lower() == 'hit':
+	# generates a third card, puts it in player's hand, finds score, adjusts for any aces, checks for bust
         draw_3 = random_card()
         hand.append(draw_3)
         play(draw_3, twenty_one)
@@ -266,6 +279,7 @@ def first_move():
         bust()
         next_moves()
     elif next_play.lower() == 'stand':
+	# moves to dealers play
         print('-' * 50)
         print_dealers_hand()
         text_speed.sleep()
@@ -275,10 +289,10 @@ def first_move():
         text_speed.sleep()
         move_dealer_stand()
     else:
+	# repeats question
         print('Please retype your answer: ', '\n') 
         first_move()
 
 text_speed.sleep()
 print('-' * 50)
-first_move()
-
+first_move() # starts program
